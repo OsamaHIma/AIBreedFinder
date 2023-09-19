@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Poppins:wght@200;300;500;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background-color: transparent;
+  height: 100%;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-green-400;
+  border-radius: 10px;
+}
+.hide-scroll-bar::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+// Padding Styles
+.paddings {
+  padding: 1.5rem;
+}
+
+// Width Styles
+.innerWidth {
+  width: 100%;
+}
+.shape {
+  border-radius: 87% 13% 70% 30% / 48% 9% 91% 52%;
+}
