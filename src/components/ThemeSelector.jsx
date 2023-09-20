@@ -1,4 +1,5 @@
 "use client";
+import { MoonIcon, SunIcon,ComputerDesktopIcon } from "@heroicons/react/24/outline";
 import {
   IconButton,
   Menu,
@@ -6,7 +7,6 @@ import {
   MenuItem,
   MenuList,
 } from "@material-tailwind/react";
-import { LaptopIcon, MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import React from "react";
 
@@ -22,9 +22,9 @@ const ThemeSelector = () => {
       
     >
       <MenuHandler>
-        <IconButton className="rounded-full" variant="text">
-          <MoonIcon className="hidden rotate-90 transition-all outline-none dark:block dark:rotate-0  dark:saturate-100 text-blue-300/70" />
-          <SunIcon className="block rotate-0 transition-all outline-none text-orange-300 dark:hidden dark:rotate-90 " />
+        <IconButton className="rounded-full !outline-none" variant="text">
+          <MoonIcon className="hidden h-6 w-6 rotate-90 transition-all outline-none dark:block dark:rotate-0  dark:saturate-100 text-blue-300/70" />
+          <SunIcon className="block h-6 w-6 rotate-0 transition-all outline-none text-orange-300 dark:hidden dark:rotate-90 " />
           <span className="sr-only">Toggle theme menu</span>
         </IconButton>
       </MenuHandler>
@@ -40,7 +40,7 @@ const ThemeSelector = () => {
           // className="cursor-pointer rounded-t-md px-8 pb-2 pt-4 text-stone-900 bg-stone-200 dark:text-stone-100 transition-all ease-in-out hover:!bg-indigo-600 dark:bg-stone-900 hover:text-stone-300 active:!bg-indigo-3"
           onClick={() => setTheme("dark")}
         >
-          <MoonIcon className="mr-2 h-4 w-4" />
+          <MoonIcon className="mr-2 h-5 w-5" />
           <span>Dark</span>
         </MenuItem>
         <MenuItem
@@ -48,7 +48,7 @@ const ThemeSelector = () => {
           // className="cursor-pointer py-2 pl-8 text-stone-900 bg-stone-200 dark:text-stone-100 transition-all ease-in-out hover:!bg-indigo-600 dark:bg-stone-900 hover:text-stone-300 active:!bg-indigo-500"
           onClick={() => setTheme("light")}
         >
-          <SunIcon className="mr-2 h-4 w-4" />
+          <SunIcon className="mr-2 h-5 w-5" />
           <span>Light</span>
         </MenuItem>
         <MenuItem
@@ -56,7 +56,7 @@ const ThemeSelector = () => {
           // className="cursor-pointer rounded-b-md pb-4 pl-8 pt-2 text-stone-900 bg-stone-200 dark:text-stone-100 transition-all ease-in-out hover:!bg-indigo-600 dark:bg-stone-900 hover:text-stone-300 active:!bg-indigo-500"
           onClick={() => setTheme("system")}
         >
-          <LaptopIcon className="mr-2 h-4 w-4" />
+          <ComputerDesktopIcon className="mr-2 h-5 w-5" />
           <span>System</span>
         </MenuItem>
       </MenuList>

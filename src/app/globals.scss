@@ -12,13 +12,13 @@
 }
 
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 11px;
   background-color: transparent;
   height: 100%;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-green-400;
+  @apply bg-indigo-400;
   border-radius: 10px;
 }
 .hide-scroll-bar::-webkit-scrollbar {

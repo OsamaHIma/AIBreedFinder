@@ -33,7 +33,7 @@ export const TitleText = ({ title, textStyles }) => (
     variants={textVariant2}
     initial="hidden"
     whileInView="show"
-    className={`mt-[8px] text-center text-[40px] font-bold text-stone-500 dark:text-gray-200 md:text-[64px] ${textStyles}`}
+    className={`mt-[8px] text-center text-[40px] font-bold  dark:text-gray-200 md:text-[64px] ${textStyles}`}
   >
     <Translate>{title}</Translate>
   </motion.h2>

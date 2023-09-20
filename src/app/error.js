@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Translate } from "translate-easy";
 import { Button } from "@material-tailwind/react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 function Error({ errorMessage }) {
   // "use server";
@@ -36,7 +36,7 @@ function Error({ errorMessage }) {
               variant="outline"
               className="flex w-1/2 items-center justify-center gap-x-2 text-sm text-gray-200 rtl:flex-row-reverse dark:border-gray-700 dark:hover:bg-gray-800 sm:w-auto"
             >
-              <ArrowLeft />
+              <ArrowLeftIcon />
 
               <span>
                 <Translate translations={{ ar: "عد للخلف" }}>Go back</Translate>

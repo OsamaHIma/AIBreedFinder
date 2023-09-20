@@ -32,13 +32,13 @@ import { toast } from "react-toastify";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBKgO4xoXJSdlTLlMO6Y-MPNkJzcW47nQA",
-  authDomain: "tumor-scan.firebaseapp.com",
-  projectId: "tumor-scan",
-  storageBucket: "tumor-scan.appspot.com",
-  messagingSenderId: "243785654758",
-  appId: "1:243785654758:web:605a1291041e80289b3627",
-  measurementId: "G-D2HB8EG5GN",
+  apiKey: "AIzaSyDPTaKK3mn0nE6GGhUtIWMz_i1b6NxAcuw",
+  authDomain: "breedai.firebaseapp.com",
+  projectId: "breedai",
+  storageBucket: "breedai.appspot.com",
+  messagingSenderId: "830600206986",
+  appId: "1:830600206986:web:09abd9f18deaec30cfeb73",
+  measurementId: "G-SFVPXSW8FN"
 };
 
 // Initialize Firebase

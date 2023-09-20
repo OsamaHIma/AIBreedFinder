@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import {
   Menu,
   MenuHandler,
@@ -7,7 +8,6 @@ import {
   MenuList,
   Button,
 } from "@material-tailwind/react";
-import { ChevronDownIcon } from "lucide-react";
 import { Translate, useLanguage } from "translate-easy";
 
 const LanguageSelector = () => {

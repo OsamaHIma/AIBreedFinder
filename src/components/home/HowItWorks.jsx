@@ -6,12 +6,11 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Typography,
-  Avatar,
-  Tooltip,
 } from "@material-tailwind/react";
-import { useLanguage } from "translate-easy";
+import { useLanguage,Translate } from "translate-easy";
+
+
 const HowItWorks = () => {
   const steps = [
     { text: "Upload a clear photo of your pet", img: "/upload.svg" },
@@ -32,21 +31,37 @@ const HowItWorks = () => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
-      className="innerWidth paddings !py-32"
+      className="innerWidth paddings relative !py-32"
     >
       <TitleText title="How it works" />
       <TypingText title="Three simple steps" textCenter />
 
-      <div className="grid grid-cols-1 py-16 md:grid-cols-3">
+      <div className="relative grid grid-cols-1 gap-3 py-16 md:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          variants={slideIn("down", "tween", 0.3, 1, selectedLanguage)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="absolute bottom-0 left-0 -z-10 h-[70%] w-full rounded-2xl bg-orange-500"
+        ></motion.div>
+
         {steps.map(({ text, img }, index) => (
           <motion.div
-            variants={slideIn("up", "tween", 0.3 * index, 1, selectedLanguage)}
+            key={index}
+            variants={slideIn(
+              "up",
+              "tween",
+              0.5 * index,
+              1.3,
+              selectedLanguage,
+            )}
             initial="hidden"
             whileInView="show"
+            viewport={{ once: true }}
           >
             <Card
-              className="max-w-[24rem] overflow-hidden bg-slate-400"
-              key={index}
+              className="my-3 max-w-[24rem] mx-auto overflow-hidden shadow-lg md:my-0"
+            
             >
               <CardHeader
                 floated={false}
@@ -58,10 +73,10 @@ const HowItWorks = () => {
               </CardHeader>
               <CardBody>
                 <Typography className="my-3 font-normal">
-                  Step {index + 1}
+                <Translate>Step</Translate> {index + 1}
                 </Typography>
                 <Typography variant="h4" color="blue-gray">
-                  {text}
+                  <Translate>{text}</Translate>
                 </Typography>
               </CardBody>
             </Card>

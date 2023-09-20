@@ -17,7 +17,6 @@ import {
 import {
   ChevronDownIcon,
   UserCircleIcon,
-  CubeTransparentIcon,
   Bars3Icon,
   XMarkIcon,
   FlagIcon,
@@ -33,12 +32,21 @@ import {
   InboxArrowDownIcon,
   LifebuoyIcon,
   HomeIcon,
+  PowerIcon,
 } from "@heroicons/react/24/outline";
 import { createElement, useEffect, useState } from "react";
 import ThemeSelector from "./ThemeSelector";
-import { PowerIcon } from "lucide-react";
 import { navVariants } from "@/utils/motion";
 import { motion } from "framer-motion";
+import LanguageSelector from "./LanguageSelector";
+import Login from "./Login";
+import { SignOutUser } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
+import SignUp from "./SingUp";
+import { Translate } from "translate-easy";
+
+
 const colors = {
   blue: "bg-blue-50 text-blue-500",
   orange: "bg-orange-50 text-orange-500",
@@ -111,30 +119,8 @@ const navListMenuItems = [
     description: "List of all our open-source projects, it's all free.",
   },
 ];
-// profile menu component
-const profileMenuItems = [
-  {
-    label: "My Profile",
-    icon: UserCircleIcon,
-  },
-  {
-    label: "Edit Profile",
-    icon: Cog6ToothIcon,
-  },
-  {
-    label: "Inbox",
-    icon: InboxArrowDownIcon,
-  },
-  {
-    label: "Help",
-    icon: LifebuoyIcon,
-  },
-  {
-    label: "Sign Out",
-    icon: PowerIcon,
-  },
-];
-function NavListMenu() {
+
+const NavListMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -213,10 +199,12 @@ function NavListMenu() {
   );
 }
 
-function NavList() {
+const NavList = () => {
+  const { user } = useUser();
   return (
     <List className="mb-6 mt-4 p-0 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:p-1">
       <ThemeSelector />
+      <LanguageSelector />
       <Typography
         as="a"
         href="#"
@@ -226,11 +214,11 @@ function NavList() {
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">
           <HomeIcon className="h-[18px] w-[18px]" />
-          Home
+          <Translate translations={{ar:"الصفحة الرئيسية"}}>Home</Translate>
         </ListItem>
       </Typography>
 
-      <NavListMenu />
+      {/* <NavListMenu /> */}
       {/* <Typography
         as="a"
         href="#"
@@ -242,17 +230,46 @@ function NavList() {
           <ProfileMenu />
         </ListItem>
       </Typography> */}
-      <ProfileMenu />
+      {user && <ProfileMenu />}
     </List>
   );
-}
-function ProfileMenu() {
+};
+
+const ProfileMenu = () => {
+  const router = useRouter();
+  // profile menu component
+  const profileMenuItems = [
+    {
+      label: "My Profile",
+      icon: UserCircleIcon,
+    },
+    // {
+    //   label: "Edit Profile",
+    //   icon: Cog6ToothIcon,
+    // },
+    // {
+    //   label: "Inbox",
+    //   icon: InboxArrowDownIcon,
+    // },
+    {
+      label: "Help",
+      icon: LifebuoyIcon,
+      handelClick: () => {
+        router.push("/contact");
+      },
+    },
+    {
+      label: "Sign Out",
+      icon: PowerIcon,
+      handelClick: SignOutUser,
+    },
+  ];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
-
+  const { user } = useUser();
   return (
-    <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
+    <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end" className="outline-none">
       <MenuHandler>
         <Button
           variant="text"
@@ -275,12 +292,12 @@ function ProfileMenu() {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }, key) => {
+        {profileMenuItems.map(({ label, icon, handelClick }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
               key={label}
-              onClick={closeMenu}
+              onClick={handelClick}
               className={`flex items-center gap-2 rounded ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
@@ -297,7 +314,7 @@ function ProfileMenu() {
                 className="font-normal"
                 color={isLastItem ? "red" : "inherit"}
               >
-                {label}
+                <Translate>{label}</Translate>
               </Typography>
             </MenuItem>
           );
@@ -305,9 +322,15 @@ function ProfileMenu() {
       </MenuList>
     </Menu>
   );
-}
-export default function NavbarWithMegaMenu() {
+};
+const NavbarMenu = () => {
+    const { user } = useUser();
   const [openNav, setOpenNav] = useState(false);
+  const [openLogin, setOpenLogin] = useState(false);
+  const handleOpenLogin = () => setOpenLogin(!openLogin);
+  
+  const [openSignUp, setOpenSignUp] = useState(false);
+  const handleOpenSignUp = () => setOpenSignUp(!openSignUp);
 
   useEffect(() => {
     window.addEventListener(
@@ -322,39 +345,44 @@ export default function NavbarWithMegaMenu() {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true }}
+      dir="ltr"
     >
       <Navbar className="!sticky top-0 z-10 mx-auto max-w-screen-xl bg-stone-200/50 p-3 px-4 py-2 backdrop-blur-lg">
-        <div className="flex items-center justify-between text-blue-gray-900">
+        <div className="flex items-center justify-between ">
           <Typography
             as="a"
             href="#"
             variant="h6"
-            className="mr-4 cursor-pointer py-1.5 lg:ml-2"
+            className="mr-4 cursor-pointer py-1.5 lg:ml-2 text-gray-900 dark:text-gray-200"
           >
-            Breed Spotter
+            AI Breed Finder
           </Typography>
 
           <div className="hidden items-center gap-1 lg:flex">
             <NavList />
           </div>
-          <div className="hidden gap-2 lg:flex">
+          {!user && <div className="hidden gap-2 lg:flex">
             <Button
               variant="text"
               size="sm"
               className="dark:text-gray-50"
               color="blue-gray"
+              onClick={handleOpenLogin}
             >
-              Sign In
+              <Translate>Sign In</Translate>
             </Button>
+            <Login open={openLogin} handleOpen={handleOpenLogin} />
             <Button
               variant="gradient"
               className="py-3"
               color="indigo"
               size="sm"
+              onClick={handleOpenSignUp}
             >
-              Sign Up
+              <Translate>Sign Up</Translate>
             </Button>
-          </div>
+            <SignUp open={openSignUp} handleOpen={handleOpenSignUp} />
+          </div>}
 
           <IconButton
             variant="text"
@@ -372,16 +400,19 @@ export default function NavbarWithMegaMenu() {
         <Collapse open={openNav}>
           {/* <ThemeSelector /> */}
           <NavList />
-          <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
-            <Button variant="outlined" size="sm" color="blue-gray" fullWidth>
-              Sign In
+          {!user && <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
+            <Button variant="outlined" onClick={handleOpenLogin} size="sm" color="blue-gray" fullWidth>
+            <Translate>Sign In</Translate>
             </Button>
-            <Button variant="gradient" size="sm" fullWidth>
-              Sign Up
+            
+            <Button variant="gradient" size="sm" color="indigo" onClick={handleOpenSignUp}  fullWidth>
+            <Translate>Sign Up</Translate>
             </Button>
-          </div>
+          </div>}
         </Collapse>
       </Navbar>
     </motion.section>
   );
 }
+
+export default NavbarMenu
