@@ -39,7 +39,7 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mt-10 md:mt-20">
+    <div className="flex flex-col items-center justify-center mt-10 md:mt-20 !py-16">
       <h1 className="text-3xl font-bold mb-4">
         <Translate>
           {success ? "Password reset link sent" : "Forgot your password?"}

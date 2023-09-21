@@ -1,5 +1,4 @@
 "use client";
-import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -11,7 +10,6 @@ import { staggerContainer } from "@/utils/motion";
 import { toast } from "react-toastify";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { TitleText, TypingText } from "@/components/TypingText";
-import Navbar from "@/components/Navbar";
 
 const styles = {
   focused: {
@@ -140,7 +138,6 @@ const page = () => {
 
   return (
     <>
-      <Navbar />
       <div className="relative flex min-h-screen items-center justify-center bg-cover bg-no-repeat px-4 py-12 sm:px-6 lg:px-8">
         <div className="z-10 w-full rounded-xl bg-stone-100 p-10 dark:bg-gray-800 sm:max-w-lg shadow-inner">
           <div className="text-center">
@@ -273,7 +270,6 @@ const page = () => {
           </div>
         )}
       </div>
-      <Footer />
     </>
   );
 };

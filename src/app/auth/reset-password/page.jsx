@@ -46,6 +46,7 @@ const ResetPasswordPage = () => {
     try {
       const res = await resetPassword(oobCode, password);
       setSuccess(true);
+      ro
     } catch (error) {
       setError(error.code);
     } finally {
@@ -56,7 +57,7 @@ const ResetPasswordPage = () => {
     setPasswordIcon(!passwordIcon);
   };
   return (
-    <section className="flex flex-col items-center justify-center paddings innerWidth">
+    <section className="flex flex-col items-center justify-center paddings innerWidth !py-16">
       <h1 className="text-3xl font-bold mb-4">
         <Translate>Reset your password</Translate>
       </h1>
@@ -129,7 +130,7 @@ const ResetPasswordPage = () => {
           <CheckBadgeIcon className="text-green-500 w-32" />
           <h1 className="text-lg rtl:text-right font-semibold dark:text-slate-50">
             <Translate>Your password has been reset successfully,</Translate>{" "}
-            <Link href="/auth/login" className="text-indigo-500 font-semibold">
+            <Link href="/" className="text-blue-500 font-semibold underline underline-offset-4">
               <Translate>Sign in</Translate>
             </Link>
             .

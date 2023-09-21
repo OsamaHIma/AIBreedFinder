@@ -1,6 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-import Footer from "@/components/Footer";
 import { Translate, useLanguage } from "translate-easy";
 import { slideIn } from "@/utils/motion";
 import { sendEmailVerificationToUser } from "@/lib/firebase";
@@ -60,7 +59,6 @@ const VerifyEmailPage = () => {
           </p>
         </motion.div>
       </div>
-      <Footer />
     </>
   );
 };

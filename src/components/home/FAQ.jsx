@@ -81,7 +81,7 @@ const FAQ = () => {
             onClick={() => handleOpen(2)}
           >
             <Translate>
-              Can I use PetBreedFinder for other animals besides cats and dogs?
+              Can I use AI Breed Finder for other animals besides cats and dogs?
             </Translate>
           </AccordionHeader>
           <AccordionBody>

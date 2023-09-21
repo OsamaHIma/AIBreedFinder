@@ -222,7 +222,7 @@ const SignUp = ({ open, handleOpen }) => {
               value={termsChecked}
               onChange={handleCheckboxChange}
             />
-            <p className="text-sm rtl:text-right dark:text-gray-300">
+            <p className="text-sm rtl:text-right">
               <Translate>I agree to the</Translate>{" "}
               <span
                 className="cursor-pointer font-semibold text-blue-500 hover:underline"

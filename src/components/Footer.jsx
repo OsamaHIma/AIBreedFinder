@@ -1,6 +1,10 @@
 "use client";
 
 import { Typography } from "@material-tailwind/react";
+import Link from "next/link";
+import { Translate } from "translate-easy";
+import TermsModal from "./TermsModal";
+import { useState } from "react";
 
 const LINKS = [
   {
@@ -18,62 +22,58 @@ const LINKS = [
 ];
 
 const currentYear = new Date().getFullYear();
-
 const Footer = () => {
+  const [OpenTermsModal, setOpenTermsModal] = useState(false);
+  const handleOpenTermsModal = () => setOpenTermsModal(!OpenTermsModal);
   return (
     <footer className="relative w-full">
       <div className="mx-auto w-full max-w-7xl px-8">
-        <div className="grid grid-cols-1 justify-between items-center gap-4 md:grid-cols-2 mb-6">
-          <Typography variant="h5">
+        <div className="mb-6 grid grid-cols-1 items-center justify-between gap-4 md:grid-cols-2">
+          <Link href="/" className="font-semibold">
             AI Breed Finder
-          </Typography>
-          <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
-          <li>
-            <Typography
-              as="a"
-              href="#"
-              className="font-normal transition-colors text-blue-gray-900 dark:text-blue-gray-400 hover:text-blue-gray-600 dark:hover:text-blue-gray-200"
-            >
-              About Us
-            </Typography>
-          </li>
-          <li>
-            <Typography
-              as="a"
-              href="#"
-              className="font-normal transition-colors text-blue-gray-900 dark:text-blue-gray-400 hover:text-blue-gray-600 dark:hover:text-blue-gray-200"
-            >
-              License
-            </Typography>
-          </li>
-          <li>
-            <Typography
-              as="a"
-              href="#"
-              className="font-normal transition-colors text-blue-gray-900 dark:text-blue-gray-400 hover:text-blue-gray-600 dark:hover:text-blue-gray-200"
-            >
-              Contribute
-            </Typography>
-          </li>
-          <li>
-            <Typography
-              as="a"
-              href="#"
-              className="font-normal transition-colors text-blue-gray-900 dark:text-blue-gray-400 hover:text-blue-gray-600 dark:hover:text-blue-gray-200"
-            >
-              Contact Us
-            </Typography>
-          </li>
-        </ul>
+          </Link>
+          <ul className="flex flex-wrap items-center gap-x-8 gap-y-2">
+            <li>
+              <Link
+                href="#about-us"
+                className="font-normal text-blue-gray-900 transition-colors hover:text-blue-gray-600 dark:text-blue-gray-400 dark:hover:text-blue-gray-200"
+              >
+                <Translate>About Us</Translate>
+              </Link>
+            </li>
+            <li>
+              <Typography onClick={handleOpenTermsModal} className="font-normal cursor-pointer text-blue-gray-900 transition-colors hover:text-blue-gray-600 dark:text-blue-gray-400 dark:hover:text-blue-gray-200">
+                <Translate>Terms and Conditions</Translate>
+              </Typography>
+              <TermsModal
+                open={OpenTermsModal}
+                handleOpen={handleOpenTermsModal}
+              />
+            </li>
+            <li>
+              <Link
+                href="/contact-us"
+                className="font-normal text-blue-gray-900 transition-colors hover:text-blue-gray-600 dark:text-blue-gray-400 dark:hover:text-blue-gray-200"
+              >
+                <Translate>Contribute</Translate>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/contact-us"
+                className="font-normal text-blue-gray-900 transition-colors hover:text-blue-gray-600 dark:text-blue-gray-400 dark:hover:text-blue-gray-200"
+              >
+                <Translate>Contact Us</Translate>
+              </Link>
+            </li>
+          </ul>
         </div>
         <div className="mt-12 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
           <Typography
             variant="small"
             className="mb-4 text-center font-normal text-blue-gray-900 dark:text-blue-gray-300  md:mb-0"
           >
-            &copy; {currentYear}{" "}
-           AI Breed Finder. All
-            Rights Reserved.
+            &copy; {currentYear} AI Breed Finder. All Rights Reserved.
           </Typography>
           <div className="flex gap-4 text-blue-gray-900 dark:text-blue-gray-300 sm:justify-center">
             <Typography

@@ -14,7 +14,7 @@ const TermsModal = ({ open, handleOpen }) => {
       <Dialog
         open={open}
         handler={handleOpen}
-        className="overflow-y-auto max-h-96 bg-stone-200 list-decimal dark:bg-stone-900"
+        className="overflow-y-auto max-h-96 bg-stone-200 list-decimal dark:bg-gray-800"
       >
         <DialogHeader className="dark:text-slate-200">
           <Translate>Terms and Conditions</Translate>
@@ -23,7 +23,7 @@ const TermsModal = ({ open, handleOpen }) => {
           <p className="my-3 dark:text-stone-100">
             <Translate>
               Please read these Terms and Conditions carefully before using the
-              &quot;Tumor Scan&quot; website. By accessing or using our website,
+              &quot;AI Breed Finder&quot; website. By accessing or using our website,
               you agree to be bound by these Terms and Conditions
             </Translate>
             .
@@ -36,7 +36,7 @@ const TermsModal = ({ open, handleOpen }) => {
               <br />{" "}
               <Translate>
                 All content, including text, graphics, images, logos, and
-                software, on the &quot;Tumor Scan&quot; website is protected by
+                software, on the &quot;AI Breed Finder&quot; website is protected by
                 intellectual property laws and is the property of Tumor Scan or
                 its licensors. You may not modify, reproduce, distribute, or
                 transmit any content without prior written consent
@@ -49,7 +49,7 @@ const TermsModal = ({ open, handleOpen }) => {
               </strong>
               <br />{" "}
               <Translate>
-                The information provided on the &quot;Tumor Scan&quot; website
+                The information provided on the &quot;AI Breed Finder&quot; website
                 is for general informational purposes only. We do not guarantee
                 the accuracy, completeness, or usefulness of the information.
                 Any reliance you place on such information is strictly at your
@@ -63,7 +63,7 @@ const TermsModal = ({ open, handleOpen }) => {
               </strong>
               <br />{" "}
               <Translate>
-                &quot;Tumor Scan&quot;, its affiliates, directors, employees, or
+                &quot;AI Breed Finder&quot;, its affiliates, directors, employees, or
                 agents shall not be liable for any direct, indirect, incidental,
                 special, or consequential damages arising out of or in
                 connection with your use of the website or the information

@@ -1,6 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-import Footer from "@/components/Footer";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { verifyEmail } from "@/lib/firebase";
@@ -88,7 +87,6 @@ const EmailVerificationPage = () => {
           )}
         </motion.div>
       </div>
-      <Footer />
     </>
   );
 };
