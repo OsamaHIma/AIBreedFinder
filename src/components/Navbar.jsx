@@ -11,7 +11,6 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
-  Chip,
   Avatar,
 } from "@material-tailwind/react";
 import {
