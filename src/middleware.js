@@ -25,10 +25,17 @@ export async function middleware(req) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
+
+  // if (session && !session.user.user.emailVerified) {
+  //   if (pathname !== "/verify-email" &&  pathname !== "/verify" ) {
+  //     return NextResponse.redirect(new URL("/verify", req.url));
+  //   }
+  // }
 }
 export const config = {
   matcher: [
     "/",
+    "/verify",
     "/verify-email",
     "/upload",
   ],

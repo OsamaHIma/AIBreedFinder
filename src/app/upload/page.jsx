@@ -1,5 +1,5 @@
 "use client";
-import Footer from "@/components/home/Footer";
+import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -59,17 +59,6 @@ const page = () => {
     }),
     [isFocused, isDragAccept, isDragReject],
   );
-
-  const files = acceptedFiles.map((file) => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-      <img
-        src={URL.createObjectURL(file)}
-        alt={file.path}
-        className="rounded-md"
-      />
-    </li>
-  ));
 
   useEffect(() => {
     if (acceptedFiles.length > 0) {
@@ -153,17 +142,17 @@ const page = () => {
     <>
       <Navbar />
       <div className="relative flex min-h-screen items-center justify-center bg-cover bg-no-repeat px-4 py-12 sm:px-6 lg:px-8">
-        <div className="z-10 w-full rounded-xl bg-stone-100 p-10 dark:bg-gray-800 sm:max-w-lg">
+        <div className="z-10 w-full rounded-xl bg-stone-100 p-10 dark:bg-gray-800 sm:max-w-lg shadow-inner">
           <div className="text-center">
-            <h2 className="mt-5 text-3xl font-bold ">Upload an image!</h2>
+            <h2 className="mt-5 text-3xl font-bold "><Translate>Upload an image!</Translate></h2>
             <p className="mt-2 text-sm text-gray-400">
-              Discover Your Pet's True Identity
+            <Translate>Discover Your Pet's True Identity</Translate>
             </p>
           </div>
           <form className="mt-8 space-y-3" action="#" method="POST">
             <div className="grid grid-cols-1 space-y-2">
               <label className="text-sm font-bold tracking-wide text-gray-400">
-                Attach An Image
+              <Translate>Attach An Image</Translate>
               </label>
               <div className="flex w-full items-center justify-center">
                 <label
@@ -195,14 +184,14 @@ const page = () => {
                       />
                     </div>
                     <p className="pointer-none text-gray-500 ">
-                      <span className="text-sm">Drag and drop</span> files here{" "}
-                      <br /> or{" "}
+                      <span className="text-sm"><Translate>Drag and drop</Translate></span> <Translate>files here</Translate>{" "}
+                      <br /> <Translate>or</Translate>{" "}
                       <a
                         href=""
                         id=""
                         className="text-blue-600 hover:underline"
                       >
-                        select a file
+                        <Translate>select a file</Translate>
                       </a>
                     </p>
                   </div>
@@ -212,10 +201,10 @@ const page = () => {
             </div>
             <p className="text-sm text-gray-400">
               <span>
-                (Only *.jpeg, *.jpg, *.jfif and *.png images will be accepted)
+              <Translate>(Only *.jpeg, *.jpg, *.jfif and *.png images will be accepted)</Translate>
               </span>
             </p>
-            {files.length > 0 && (
+            {uploadedPhoto && (
               <div className="relative text-center">
                 <IconButton
                   variant="text"
@@ -244,41 +233,12 @@ const page = () => {
                 className="rounded-full"
                 fullWidth
               >
-                Upload
+                <Translate>Upload</Translate>
               </Button>
             </div>
           </form>
           <div>
-            {/* {files.length > 0 && (
-              <>
-                <h4 className="mt-3">
-                  <Translate>Selected Image:</Translate>
-                </h4>
-                <ul>{files}</ul>
-                <div className="" dir="ltr">
-                  <Button
-                    disabled={loading}
-                    color="red"
-                    onClick={handleRemoveFiles}
-                    className="mx-2 mt-6 px-4 text-white md:text-lg"
-                  >
-                    <Translate translations={{ ar: "إلغاء" }}>Cancel</Translate>
-                  </Button>
-                  <Button
-                    disabled={loading}
-                    onClick={sendImageForPrediction}
-                    color="green"
-                    className="mx-2 mt-6 px-6 text-white md:text-lg"
-                  >
-                    {loading ? (
-                      <Spinner color="green" className="mx-auto" />
-                    ) : (
-                      <Translate translations={{ ar: "أرسل" }}>Send</Translate>
-                    )}
-                  </Button>
-                </div>
-              </>
-            )} */}
+          
           </div>
         </div>
 

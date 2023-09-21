@@ -87,9 +87,7 @@ const FAQ = () => {
           <AccordionBody>
             <h1 className="text-xl dark:text-stone-100">
               <Translate>
-                Currently, PetBreedFinder focuses exclusively on cat and dog
-                breeds. We do not provide breed identification for other animals
-                at this time.
+                Yes! if you're not quite sure what kind of animal is in the photo upload the image, and we we will figure it out for you.
               </Translate>
             </h1>
           </AccordionBody>

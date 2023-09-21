@@ -31,7 +31,7 @@ const LanguageSelector = () => {
           </span>
 
           <div>
-            <ChevronDownIcon />
+            <ChevronDownIcon className="w-5 h-5" />
           </div>
         </Button>
       </MenuHandler>

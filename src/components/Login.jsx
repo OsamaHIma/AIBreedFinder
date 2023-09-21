@@ -19,6 +19,7 @@ import { Translate } from "translate-easy";
 
 import { toast } from "react-toastify";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 const Login = ({ open, handleOpen }) => {
   const [email, setEmail] = useState("");
@@ -139,7 +140,7 @@ const Login = ({ open, handleOpen }) => {
               onChange={(e) => setPassword(e.target.value)}
               error={error}
             />
-            <div className="-ml-2.5">
+            <div className="-ml-2.5 flex items-center justify-between">
               <Checkbox
                 label={
                   <div className="dark:text-gray-300">
@@ -151,6 +152,9 @@ const Login = ({ open, handleOpen }) => {
                 value={isRememberedUser || ""}
                 id="remember-me"
               />
+              <Link href="/auth/forgot-password" className="text-blue-500 underline underline-offset-4">
+              <Translate>Forgot Password?</Translate>
+              </Link>
             </div>
             {error && (
               <ol className="mx-4 flex list-decimal flex-col gap-1 text-red-500 ltr:text-left rtl:text-right">

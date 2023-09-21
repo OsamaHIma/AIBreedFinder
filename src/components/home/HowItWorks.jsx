@@ -13,6 +13,7 @@ import { useLanguage,Translate } from "translate-easy";
 
 const HowItWorks = () => {
   const steps = [
+    { text: "Sign up and then an upload link will appear in the navbar", img: "/signup.svg" },
     { text: "Upload a clear photo of your pet", img: "/upload.svg" },
     {
       text: "Our advanced AI algorithms will analyze the photo.",
@@ -36,7 +37,7 @@ const HowItWorks = () => {
       <TitleText title="How it works" />
       <TypingText title="Three simple steps" textCenter />
 
-      <div className="relative grid grid-cols-1 gap-3 py-16 md:grid-cols-2 lg:grid-cols-3">
+      <div className="relative grid grid-cols-1 gap-3 py-16 md:grid-cols-2 lg:grid-cols-4">
         <motion.div
           variants={slideIn("down", "tween", 0.3, 1, selectedLanguage)}
           initial="hidden"

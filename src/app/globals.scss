@@ -18,7 +18,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-indigo-400;
+  @apply bg-indigo-500;
   border-radius: 10px;
 }
 .hide-scroll-bar::-webkit-scrollbar {
@@ -28,6 +28,7 @@
 // Padding Styles
 .paddings {
   padding: 1.5rem;
+
 }
 
 // Width Styles
