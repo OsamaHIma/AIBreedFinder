@@ -1,15 +1,15 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
+
 import { useEffect, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Translate } from "translate-easy";
 import { Button, Spinner, IconButton } from "@material-tailwind/react";
-import { motion } from "framer-motion";
-import { staggerContainer } from "@/utils/motion";
+
 import { toast } from "react-toastify";
-import { XCircleIcon } from "@heroicons/react/24/outline";
-import { TitleText, TypingText } from "@/components/TypingText";
+import { CameraIcon, XCircleIcon } from "@heroicons/react/24/outline";
+
+import AnimalDetection from "@/components/AnimalDetection";
 
 const styles = {
   focused: {
@@ -25,10 +25,11 @@ const styles = {
   },
 };
 
-const page = () => {
+const UploadPage = () => {
   const [uploadedPhoto, setUploadedPhoto] = useState();
   const [prediction, setPrediction] = useState(null);
-  const [NotifyUser, setNotifyUser] = useState(false);
+  const [selectedModal, setSelectedModal] = useState("");
+  const [imagePath, setImagePath] = useState("");
   const [loading, setIsLoading] = useState(false);
 
   const {
@@ -63,6 +64,7 @@ const page = () => {
       const fileUrl = acceptedFiles[0];
       setPrediction(null);
       setUploadedPhoto(fileUrl);
+      setImagePath(URL.createObjectURL(fileUrl));
     }
   }, [acceptedFiles, setUploadedPhoto]);
 
@@ -73,47 +75,100 @@ const page = () => {
     setUploadedPhoto(null);
     acceptedFiles.splice(0, acceptedFiles.length);
   };
+
+  const handleCapturePhoto = async () => {
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+      });
+      const video = document.createElement("video");
+      const photoCanvas = document.createElement("canvas");
+      const photoContext = photoCanvas.getContext("2d");
+
+      video.srcObject = mediaStream;
+      video.onloadedmetadata = () => {
+        video.play();
+        photoCanvas.width = video.videoWidth;
+        photoCanvas.height = video.videoHeight;
+        photoContext.drawImage(
+          video,
+          0,
+          0,
+          photoCanvas.width,
+          photoCanvas.height,
+        );
+
+        const imageDataURL = photoCanvas.toDataURL("image/png");
+        const blob = dataURLtoBlob(imageDataURL);
+        const file = new File([blob], "captured_photo.png");
+
+        setPrediction(null);
+        setUploadedPhoto(URL.createObjectURL(file));
+
+        acceptedFiles.splice(0, acceptedFiles.length);
+        acceptedFiles.push(file);
+
+        video.srcObject?.getTracks().forEach((track) => track.stop());
+      };
+    } catch (error) {
+      console.error("Error accessing camera:", error);
+    }
+  };
+
+  const dataURLtoBlob = (dataURL) => {
+    if (!dataURL) return null;
+
+    const arr = dataURL.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+  };
+
   // Function to send an image for prediction
   const sendImageForPrediction = async () => {
-    setIsLoading(true);
+     if (!selectedModal) {
+      // Handle case where no service is selected
+      setIsLoading(false);
+      toast.error("Please select a service");
+      return;
+    }
     if (!uploadedPhoto) {
       // Handle case where no file is selected
       setIsLoading(false);
       toast.error("Please select an image");
       return;
     }
+   
 
+    const modelUrls = {
+      cat: "https://dogs-api-o5xd.onrender.com/detect",
+      dog: "https://dogssssss-api.onrender.com/detect",
+      eye: "https://dogs-desies-api.onrender.com/detect",
+      animal: "https://animalss-api.onrender.com/detect",
+    };
     const formData = new FormData();
-    formData.append("file", uploadedPhoto);
+    formData.append("image_file", uploadedPhoto);
 
+    setIsLoading(true);
     try {
-      const response = await fetch(
-        "https://breed-ai-api.onrender.com/predict",
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      const response = await fetch(modelUrls[selectedModal], {
+        method: "POST",
+        body: formData,
+      });
 
       if (response.ok) {
-        const { class1, prob1 } = await response.json();
+        const responseData = await response.json();
         // Handle the response containing the predictions
-        setPrediction({ class1, prob1 });
-
-        NotifyUser &&
-          new Notification("The results are here", {
-            body: `There is ${prob1.toFixed(
-              1,
-            )}% that the patient has ${class1}`,
-            icon: "/logoTab.svg",
-            vibrate: [200, 100, 200],
-            sound: "/notification_sound.mp3",
-          });
-
-        handleRemoveFiles();
+        setPrediction(responseData);
+        // handleRemoveFiles();
       } else {
         // Handle the error response
-        toast.error("Failed to send the image for prediction");
+        toast.error("Failed to send the image for detection");
       }
 
       setIsLoading(false);
@@ -124,36 +179,77 @@ const page = () => {
     }
   };
 
-  const handelNotifyMe = async () => {
-    setNotifyUser(true);
-    if ("Notification" in window) {
-      const permissionResult = await Notification.requestPermission();
-      if (permissionResult === "granted") {
-        toast.info("You will be notified please keep this tap open");
-      } else {
-        toast.error("Please give the website Notification permission");
-      }
-    }
-  };
-
   return (
     <>
       <div className="relative flex min-h-screen items-center justify-center bg-cover bg-no-repeat px-4 py-12 sm:px-6 lg:px-8">
-        <div className="z-10 w-full rounded-xl bg-stone-100 p-10 dark:bg-gray-800 sm:max-w-lg shadow-inner">
+        <div className="z-10 w-full rounded-xl bg-stone-100 p-10 shadow-inner dark:bg-gray-800 sm:max-w-lg">
           <div className="text-center">
-            <h2 className="mt-5 text-3xl font-bold "><Translate>Upload an image!</Translate></h2>
+            <h2 className="mt-5 text-3xl font-bold ">
+              <Translate>Upload an image!</Translate>
+            </h2>
             <p className="mt-2 text-sm text-gray-400">
-            <Translate>Discover Your Pet's True Identity</Translate>
+              <Translate>Discover Your Pet's True Identity</Translate>
             </p>
           </div>
+
+          <div className="my-7">
+            <label
+              for="countries"
+              class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >
+              <Translate>Select an option</Translate>
+            </label>
+            <select
+              onChange={(e) => {
+                setSelectedModal(e.target.value);
+              }}
+              id="countries"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+            >
+              <option value="" selected>
+                <Translate>Choose a service</Translate>
+              </option>
+              <option value="cat">
+                <Translate>Cat breeds Detection</Translate>
+              </option>
+              <option value="dog">
+                <Translate>Dogs breeds Detection</Translate>
+              </option>
+              <option value="animal">
+                <Translate>
+                  Unknown Animal (if your are not sure which animal is in the
+                  photo we'll Detect it for ya)
+                </Translate>
+              </option>
+              <option value="eye">
+                <Translate>Dog's eye disease Detection</Translate>
+              </option>
+            </select>
+          </div>
+
           <form className="mt-8 space-y-3" action="#" method="POST">
             <div className="grid grid-cols-1 space-y-2">
-              <label className="text-sm font-bold tracking-wide text-gray-400">
-              <Translate>Attach An Image</Translate>
-              </label>
-              <div className="flex w-full items-center justify-center">
+              <div className="grid grid-cols-3 items-center">
+                <label className="text-sm font-bold tracking-wide text-gray-400 ">
+                  <Translate>Attach An Image</Translate>
+                </label>
+                <p className=" text-center ">Or</p>
+                <Button
+                  variant="text"
+                  color="indigo"
+                  // className="rounded-full whitespace-nowrap"
+                  onClick={handleCapturePhoto}
+                >
+                  <CameraIcon className="inline h-7 w-7" />
+                  <span className="whitespace-nowrap">
+                    <Translate>Take a picture</Translate>
+                  </span>
+                </Button>
+              </div>
+
+              <div {...getRootProps({ className: "dropzone", style })} className="flex w-full items-center justify-center">
                 <label
-                  {...getRootProps({ className: "dropzone", style })}
+                  
                   className="group flex h-60 w-full flex-col rounded-lg border-4 border-dashed p-10 text-center"
                 >
                   <div className="flex h-full w-full flex-col items-center justify-center text-center  ">
@@ -181,15 +277,16 @@ const page = () => {
                       />
                     </div>
                     <p className="pointer-none text-gray-500 ">
-                      <span className="text-sm"><Translate>Drag and drop</Translate></span> <Translate>files here</Translate>{" "}
-                      <br /> <Translate>or</Translate>{" "}
-                      <a
-                        href=""
-                        id=""
-                        className="text-blue-600 hover:underline"
+                      <span className="text-sm">
+                        <Translate>Drag and drop</Translate>
+                      </span>{" "}
+                      <Translate>files here</Translate> <br />{" "}
+                      <Translate>or</Translate>{" "}
+                      <span
+                        className="text-blue-600 cursor-pointer hover:underline"
                       >
                         <Translate>select a file</Translate>
-                      </a>
+                      </span>
                     </p>
                   </div>
                   <input {...getInputProps()} disabled={loading} />
@@ -198,22 +295,26 @@ const page = () => {
             </div>
             <p className="text-sm text-gray-400">
               <span>
-              <Translate>(Only *.jpeg, *.jpg, *.jfif and *.png images will be accepted)</Translate>
+                <Translate>
+                  (Only *.jpeg, *.jpg, *.jfif and *.png images will be accepted)
+                </Translate>
               </span>
             </p>
-            {uploadedPhoto && (
+            {imagePath && (
               <div className="relative text-center">
+                
                 <IconButton
                   variant="text"
                   disabled={loading}
                   color="red"
-                  onClick={handleRemoveFiles}
-                  className="my-3 mx-auto rounded-full "
+                  onClick={() => setImagePath('')}
+                  className="mx-auto my-3 rounded-full "
                 >
                   <XCircleIcon className="h-7 w-7" />
                 </IconButton>
+                <h1 className="mb-3">Selected Image</h1>
                 <Image
-                  src={URL.createObjectURL(acceptedFiles[0])}
+                  src={imagePath}
                   className="relative mx-auto my-3 rounded-lg object-center"
                   width={300}
                   height={300}
@@ -230,48 +331,17 @@ const page = () => {
                 className="rounded-full"
                 fullWidth
               >
-                <Translate>Upload</Translate>
+                {loading? <Spinner color="green" className="mx-auto" scale={1.7} />:<Translate>Upload</Translate>}
               </Button>
             </div>
           </form>
-          <div>
-          
-          </div>
+          {prediction && (
+            <AnimalDetection animalData={prediction} imagePath={imagePath} />
+          )}
         </div>
-
-        {prediction && (
-          <div className="py-8">
-            <h4 className="xs:text-[30px] my-8 text-center text-[20px] font-black text-stone-500 dark:text-white sm:text-[40px] md:text-[50px]">
-              <Translate>Results</Translate>
-            </h4>
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              {prediction.prob1 > 0.5 ? (
-                <CheckCircleIcon className="text-green-500" size={48} />
-              ) : (
-                <XCircleIcon className="text-red-500" size={48} />
-              )}
-              <div className="text-center">
-                <p className="mb-2 text-gray-500 dark:text-gray-400">
-                  <Translate>There is a</Translate>{" "}
-                  <span className="font-bold">
-                    {prediction.prob1.toFixed(1)}%
-                  </span>{" "}
-                  <Translate>probability that the patient has</Translate>{" "}
-                  <span className="font-bold text-red-300">
-                    {prediction.class1}
-                  </span>
-                  .
-                </p>
-                <p className="text-gray-400">
-                  <Translate>Based on the prediction model and data.</Translate>
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </>
   );
 };
 
-export default page;
+export default UploadPage;

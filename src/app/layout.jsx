@@ -22,7 +22,7 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="mul">
       <head>
-        <link rel="icon" type="image/x-icon" href="/logo.svg" />
+        <link rel="icon" type="image/x-icon" href="/logoTab.svg" />
       </head>
       <body
         className={`paddings innerWidth  bg-stone-50 text-primary-black transition-all duration-500 ease-in-out ltr:!font-poppins rtl:!font-cairo dark:bg-gray-900 dark:text-blue-gray-100 `}
