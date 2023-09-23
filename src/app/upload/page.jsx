@@ -100,7 +100,7 @@ const UploadPage = () => {
     if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
       setUploadedPhoto(file);
-      draw_image_and_boxes(file, [[157, 212, 853, 1280, "vizsla", 0.95]]);
+      // draw_image_and_boxes(file, [[157, 212, 853, 1280, "vizsla", 0.95]]);
       setImagePath(URL.createObjectURL(file));
     }
   }, [acceptedFiles, setUploadedPhoto]);
@@ -110,43 +110,35 @@ const UploadPage = () => {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: true,
       });
-      const video = document.createElement("video");
-      const photoCanvas = document.createElement("canvas");
-      const photoContext = photoCanvas.getContext("2d");
+      const video = document.createElement('video');
+      const photoCanvas = document.createElement('canvas');
+      const photoContext = photoCanvas.getContext('2d');
 
       video.srcObject = mediaStream;
       video.onloadedmetadata = () => {
         video.play();
         photoCanvas.width = video.videoWidth;
         photoCanvas.height = video.videoHeight;
-        photoContext.drawImage(
-          video,
-          0,
-          0,
-          photoCanvas.width,
-          photoCanvas.height,
-        );
+        photoContext.drawImage(video, 0, 0, photoCanvas.width, photoCanvas.height);
 
-        const imageDataURL = photoCanvas.toDataURL("image/png");
+        const imageDataURL = photoCanvas.toDataURL('image/png');
         const blob = dataURLtoBlob(imageDataURL);
-        const file = new File([blob], "captured_photo.png");
+        const file = new File([blob], 'captured_photo.png');
 
         setImagePath(URL.createObjectURL(file));
-
-        acceptedFiles.splice(0, acceptedFiles.length);
-        acceptedFiles.push(file);
+        setUploadedPhoto(file);
 
         video.srcObject?.getTracks().forEach((track) => track.stop());
       };
     } catch (error) {
-      console.error("Error accessing camera:", error);
+      console.error('Error accessing camera:', error);
     }
   };
 
   const dataURLtoBlob = (dataURL) => {
     if (!dataURL) return null;
 
-    const arr = dataURL.split(",");
+    const arr = dataURL.split(',');
     const mime = arr[0].match(/:(.*?);/)[1];
     const bstr = atob(arr[1]);
     let n = bstr.length;
