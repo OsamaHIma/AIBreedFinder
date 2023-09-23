@@ -108,7 +108,7 @@ const UploadPage = () => {
   const handleCapturePhoto = async () => {
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: { facingMode: 'environment' }, // Specify the facing mode as 'environment' for the back camera
       });
       const video = document.createElement('video');
       const photoCanvas = document.createElement('canvas');
@@ -203,7 +203,7 @@ const UploadPage = () => {
       <div className="relative flex min-h-screen items-center justify-center bg-cover bg-no-repeat px-4 py-12 sm:px-6 lg:px-8">
         <div className="z-10 w-full rounded-xl bg-stone-100 p-10 shadow-inner dark:bg-gray-800 sm:max-w-lg">
           <div className="text-center">
-            <h2 className="mt-5 text-3xl font-bold ">
+            <h2 className="mt-5 text-2xl md:text-3xl font-bold whitespace-nowrap ">
               <Translate>Upload an image!</Translate>
             </h2>
             <p className="mt-2 text-sm text-gray-400">
@@ -248,15 +248,15 @@ const UploadPage = () => {
 
           <form className="mt-8 space-y-3" action="#" method="POST">
             <div className="grid grid-cols-1 space-y-2">
-              <div className="grid grid-cols-3 items-center">
-                <label className="text-sm font-bold tracking-wide text-gray-400 ">
+              <div className="flex gap-2 flex-col md:gap-7 md:flex-row items-center mx-auto">
+                <label className="text-sm font-bold tracking-wide whitespace-nowrap text-gray-400 ">
                   <Translate>Attach An Image</Translate>
                 </label>
                 <p className=" text-center ">Or</p>
                 <Button
                   variant="text"
                   color="indigo"
-                  // className="rounded-full whitespace-nowrap"
+                  className="p-0 flex items-center gap-2"
                   onClick={handleCapturePhoto}
                 >
                   <CameraIcon className="inline h-7 w-7" />
